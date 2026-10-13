@@ -2,6 +2,7 @@
 
 /* Punto de entrada: conecta a MongoDB, carga datos de prueba y levanta el servidor. */
 require("dotenv").config();
+
 const mongoose = require("mongoose");
 const app = require("./app");
 const { sembrarDatos } = require("./seed");
