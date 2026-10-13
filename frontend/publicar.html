@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Publicar un objeto · UniShare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="index.html"><i data-icon="package" data-size="24"></i>UniShare</a>
+        <nav class="dn" aria-label="Principal">
+          <a href="index.html" data-nav="catalogo"
+            ><i data-icon="house" data-size="18"></i>Catálogo</a
+          >
+          <a href="publicar.html" data-nav="publicar"
+            ><i data-icon="plus" data-size="18"></i>Publicar</a
+          >
+          <a href="prestamos.html" data-nav="prestamos"
+            ><i data-icon="package" data-size="18"></i>Mis préstamos</a
+          >
+        </nav>
+        <div class="who">
+          <span class="av" id="avatar" aria-hidden="true"></span>
+          <span class="dn" id="nombre-usuario"></span>
+          <button class="ib" id="btn-salir" type="button" aria-label="Cerrar sesión">
+            <i data-icon="log-out" data-size="18"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="wrap narrow">
+      <h1>Publicar un objeto</h1>
+      <p class="mut">Ofrécelo en préstamo con tarifa por día y garantía reembolsable.</p>
+      <form class="box" id="form-publicar" novalidate>
+        <div data-errores></div>
+        <div class="f">
+          <label for="nombre">Nombre del objeto</label><input id="nombre" name="nombre" />
+        </div>
+        <div class="f">
+          <label for="descripcion">Descripción</label
+          ><textarea id="descripcion" name="descripcion" rows="3"></textarea>
+        </div>
+        <div class="f">
+          <label for="categoria">Categoría</label
+          ><select id="categoria" name="categoria"></select>
+        </div>
+        <div class="g3">
+          <div class="f">
+            <label for="tarifa">Tarifa por día (COP)</label
+            ><input id="tarifa" name="tarifa" type="number" min="1" />
+          </div>
+          <div class="f">
+            <label for="garantia">Garantía (COP)</label
+            ><input id="garantia" name="garantia" type="number" min="0" />
+          </div>
+          <div class="f">
+            <label for="max-dias">Máximo de días</label
+            ><input id="max-dias" name="maxDias" type="number" min="1" />
+          </div>
+        </div>
+        <div class="f">
+          <label for="fotos">Fotos (hasta 4)</label>
+          <input id="fotos" type="file" accept="image/*" multiple />
+          <span class="mut">Sin fotos se usará una imagen por defecto de la categoría.</span>
+        </div>
+        <div class="pv"></div>
+        <button class="btn pri">Publicar objeto</button>
+      </form>
+    </main>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script src="js/iconos.js"></script>
+    <script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+    <script src="js/pages/publicar.js"></script>
+  </body>
+</html>

@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Detalle del objeto · UniShare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="index.html"><i data-icon="package" data-size="24"></i>UniShare</a>
+        <nav class="dn" aria-label="Principal">
+          <a href="index.html" data-nav="catalogo"
+            ><i data-icon="house" data-size="18"></i>Catálogo</a
+          >
+          <a href="publicar.html" data-nav="publicar"
+            ><i data-icon="plus" data-size="18"></i>Publicar</a
+          >
+          <a href="prestamos.html" data-nav="prestamos"
+            ><i data-icon="package" data-size="18"></i>Mis préstamos</a
+          >
+        </nav>
+        <div class="who">
+          <span class="av" id="avatar" aria-hidden="true"></span>
+          <span class="dn" id="nombre-usuario"></span>
+          <button class="ib" id="btn-salir" type="button" aria-label="Cerrar sesión">
+            <i data-icon="log-out" data-size="18"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="wrap">
+      <div id="no-encontrado" hidden>
+        <p class="empty">No encontramos ese objeto. <a href="index.html">Volver al catálogo</a></p>
+      </div>
+      <div id="contenido">
+        <a class="back" href="index.html"
+          ><i data-icon="arrow-left" data-size="18"></i> Volver al catálogo</a
+        >
+        <div class="cols">
+          <section aria-label="Fotos del objeto">
+            <img id="foto-principal" class="big" alt="" />
+            <div class="thumbs" id="miniaturas"></div>
+          </section>
+          <section>
+            <span id="estado"></span>
+            <h1 class="titulo-objeto" id="nombre"></h1>
+            <p id="descripcion"></p>
+            <p class="mut">
+              Dueño: <span id="dueno"></span> <span class="rt" id="reputacion"></span> · Máximo
+              <span id="max-dias"></span> días
+            </p>
+            <form class="box" id="form-solicitud" novalidate>
+              <h2 class="t0">Solicitar préstamo</h2>
+              <div data-errores></div>
+              <div class="f">
+                <label for="dias">¿Cuántos días lo necesitas?</label>
+                <input id="dias" name="dias" type="number" min="1" value="1" />
+                <span class="mut" id="ayuda-dias"></span>
+              </div>
+              <div class="cost">
+                <div><span id="costo-etiqueta"></span><span id="costo-tarifa"></span></div>
+                <div class="gar">
+                  <span><i data-icon="shield-check" data-size="16"></i> Garantía reembolsable</span
+                  ><span id="costo-garantia"></span>
+                </div>
+                <div class="tot"><span>Total</span><span id="costo-total"></span></div>
+              </div>
+              <button class="btn pri w" id="btn-solicitar">Solicitar préstamo</button>
+            </form>
+          </section>
+        </div>
+      </div>
+    </main>
+    <template id="tpl-miniatura">
+      <button type="button"><img alt="" /></button>
+    </template>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script src="js/iconos.js"></script>
+    <script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+    <script src="js/pages/objeto.js"></script>
+  </body>
+</html>

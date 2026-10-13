@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mis préstamos · UniShare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="index.html"><i data-icon="package" data-size="24"></i>UniShare</a>
+        <nav class="dn" aria-label="Principal">
+          <a href="index.html" data-nav="catalogo"
+            ><i data-icon="house" data-size="18"></i>Catálogo</a
+          >
+          <a href="publicar.html" data-nav="publicar"
+            ><i data-icon="plus" data-size="18"></i>Publicar</a
+          >
+          <a href="prestamos.html" data-nav="prestamos"
+            ><i data-icon="package" data-size="18"></i>Mis préstamos</a
+          >
+        </nav>
+        <div class="who">
+          <span class="av" id="avatar" aria-hidden="true"></span>
+          <span class="dn" id="nombre-usuario"></span>
+          <button class="ib" id="btn-salir" type="button" aria-label="Cerrar sesión">
+            <i data-icon="log-out" data-size="18"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main class="wrap">
+      <h1>Mis préstamos</h1>
+      <div class="tabs" role="group" aria-label="Tipo de préstamo">
+        <button type="button" class="cat" data-tab="piden">Me piden mis objetos</button>
+        <button type="button" class="cat" data-tab="pedi">Pedí prestado</button>
+      </div>
+      <div id="lista"></div>
+      <p class="empty" id="sin-prestamos" hidden>
+        Aún no tienes préstamos aquí. Explora el <a href="index.html">catálogo</a> o
+        <a href="publicar.html">publica un objeto</a>.
+      </p>
+    </main>
+
+    <template id="tpl-prestamo">
+      <article class="lc">
+        <img alt="" />
+        <div>
+          <h3>
+            <span data-campo="nombre"></span> <span data-campo="estado"></span
+            ><span class="mut" data-campo="tarde"></span>
+          </h3>
+          <span class="mut" data-campo="detalle"></span>
+          <ol class="tl">
+            <li>Solicitado</li>
+            <li>Aceptado</li>
+            <li>Activo</li>
+            <li>Devuelto</li>
+          </ol>
+          <div>
+            <span data-campo="total"></span> · <span class="gar" data-campo="garantia"></span>
+          </div>
+          <div data-campo="evidencias"></div>
+          <div class="acts"></div>
+        </div>
+      </article>
+    </template>
+    <template id="tpl-evidencia">
+      <div class="ev">
+        <b data-campo="titulo"></b>: <span data-campo="texto"></span>
+        <span class="gar" data-campo="danio"></span>
+        <div class="pv"></div>
+      </div>
+    </template>
+
+    <dialog id="dlg-entrega">
+      <form id="form-entrega" novalidate>
+        <h2>Registrar entrega</h2>
+        <p class="mut">Describe cómo sale el objeto y agrega fotos como evidencia.</p>
+        <div data-errores></div>
+        <div class="f">
+          <label for="entrega-desc">Estado del objeto</label
+          ><textarea id="entrega-desc" name="descripcion" rows="3"></textarea>
+        </div>
+        <div class="f">
+          <label for="entrega-fotos">Fotos (hasta 4)</label
+          ><input id="entrega-fotos" type="file" accept="image/*" multiple />
+        </div>
+        <div class="pv"></div>
+        <div class="acts">
+          <button type="button" class="btn sec" data-cerrar>Cancelar</button
+          ><button class="btn pri">Confirmar entrega</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-devolucion">
+      <form id="form-devolucion" novalidate>
+        <h2>Registrar devolución</h2>
+        <div data-errores></div>
+        <div class="f">
+          <label for="dev-desc">Estado en que regresa el objeto</label
+          ><textarea id="dev-desc" name="descripcion" rows="2"></textarea>
+        </div>
+        <div class="opts" role="radiogroup" aria-label="Resultado de la devolución">
+          <label><input type="radio" name="resultado" value="ok" checked /> Buen estado</label>
+          <label><input type="radio" name="resultado" value="danio" /> Con daño</label>
+        </div>
+        <div id="bloque-danio" hidden>
+          <div class="f">
+            <label for="dev-monto">Monto del daño (COP)</label
+            ><input id="dev-monto" name="monto" type="number" min="0" /><span class="mut"
+              >Se descuenta de la garantía; el resto se devuelve.</span
+            >
+          </div>
+          <div class="f">
+            <label for="dev-danio">Descripción del daño</label
+            ><textarea id="dev-danio" name="descripcionDanio" rows="2"></textarea>
+          </div>
+        </div>
+        <div class="f">
+          <label for="dev-fotos">Fotos (hasta 4)</label
+          ><input id="dev-fotos" type="file" accept="image/*" multiple />
+        </div>
+        <div class="pv"></div>
+        <div class="acts">
+          <button type="button" class="btn sec" data-cerrar>Cancelar</button
+          ><button class="btn pri">Confirmar devolución</button>
+        </div>
+      </form>
+    </dialog>
+
+    <dialog id="dlg-calificacion">
+      <form id="form-calificacion" novalidate>
+        <h2 id="titulo-calificacion"></h2>
+        <div data-errores></div>
+        <fieldset class="stars">
+          <legend class="sr">Calificación de 1 a 5 estrellas</legend>
+          <input type="radio" name="puntos" id="estrella-5" value="5" /><label
+            for="estrella-5"
+            title="5 estrellas"
+            ><i data-icon="star" data-size="32"></i><span class="sr">5 estrellas</span></label
+          >
+          <input type="radio" name="puntos" id="estrella-4" value="4" /><label
+            for="estrella-4"
+            title="4 estrellas"
+            ><i data-icon="star" data-size="32"></i><span class="sr">4 estrellas</span></label
+          >
+          <input type="radio" name="puntos" id="estrella-3" value="3" /><label
+            for="estrella-3"
+            title="3 estrellas"
+            ><i data-icon="star" data-size="32"></i><span class="sr">3 estrellas</span></label
+          >
+          <input type="radio" name="puntos" id="estrella-2" value="2" /><label
+            for="estrella-2"
+            title="2 estrellas"
+            ><i data-icon="star" data-size="32"></i><span class="sr">2 estrellas</span></label
+          >
+          <input type="radio" name="puntos" id="estrella-1" value="1" /><label
+            for="estrella-1"
+            title="1 estrellas"
+            ><i data-icon="star" data-size="32"></i><span class="sr">1 estrellas</span></label
+          >
+        </fieldset>
+        <div class="f">
+          <label for="cal-comentario">Comentario (opcional)</label
+          ><textarea id="cal-comentario" name="comentario" rows="2"></textarea>
+        </div>
+        <div class="acts">
+          <button type="button" class="btn sec" data-cerrar>Cancelar</button
+          ><button class="btn pri">Enviar calificación</button>
+        </div>
+      </form>
+    </dialog>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script src="js/iconos.js"></script>
+    <script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+    <script src="js/pages/prestamos.js"></script>
+  </body>
+</html>

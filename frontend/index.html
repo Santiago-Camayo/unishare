@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Catálogo · UniShare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="index.html"><i data-icon="package" data-size="24"></i>UniShare</a>
+        <nav class="dn" aria-label="Principal">
+          <a href="index.html" data-nav="catalogo"
+            ><i data-icon="house" data-size="18"></i>Catálogo</a
+          >
+          <a href="publicar.html" data-nav="publicar"
+            ><i data-icon="plus" data-size="18"></i>Publicar</a
+          >
+          <a href="prestamos.html" data-nav="prestamos"
+            ><i data-icon="package" data-size="18"></i>Mis préstamos</a
+          >
+        </nav>
+        <div class="who">
+          <span class="av" id="avatar" aria-hidden="true"></span>
+          <span class="dn" id="nombre-usuario"></span>
+          <button class="ib" id="btn-salir" type="button" aria-label="Cerrar sesión">
+            <i data-icon="log-out" data-size="18"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <h1>Lo que necesitas, prestado por tu comunidad</h1>
+          <p>
+            Pide prestado a otros estudiantes. Presta lo que no usas y gana por ello, con garantía.
+          </p>
+          <label class="sr" for="buscador">Buscar objetos</label>
+          <div class="search">
+            <i data-icon="search"></i>
+            <input
+              id="buscador"
+              type="search"
+              placeholder="Busca calculadoras, taladros, libros…"
+              autocomplete="off"
+            />
+          </div>
+        </div>
+      </section>
+      <div class="wrap">
+        <div class="cats" id="categorias"></div>
+        <div class="grid" id="grilla"></div>
+        <p class="empty" id="sin-resultados" hidden>
+          No encontramos objetos con esa búsqueda. Prueba con otra palabra o categoría.
+        </p>
+      </div>
+    </main>
+    <template id="tpl-categoria">
+      <button class="cat" type="button"><i></i><span data-campo="nombre"></span></button>
+    </template>
+    <template id="tpl-tarjeta">
+      <a class="card">
+        <div class="ph"><img alt="" loading="lazy" /></div>
+        <div class="cb">
+          <h3 data-campo="titulo"></h3>
+          <span class="mut" data-campo="detalle"></span>
+          <div class="row">
+            <span class="price"><span data-campo="precio"></span><small>/día</small></span>
+            <span class="rt" data-campo="rep"></span>
+          </div>
+        </div>
+      </a>
+    </template>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script src="js/iconos.js"></script>
+    <script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+    <script src="js/pages/catalogo.js"></script>
+  </body>
+</html>

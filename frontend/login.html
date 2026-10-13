@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Iniciar sesión · UniShare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/estilos.css" />
+  </head>
+  <body>
+    <header class="top">
+      <div class="wrap bar">
+        <a class="logo" href="login.html"><i data-icon="package" data-size="24"></i>UniShare</a>
+      </div>
+    </header>
+    <main class="auth">
+      <section class="box">
+        <h1 class="t0">Inicia sesión</h1>
+        <p class="mut">Entra con tu correo institucional.</p>
+        <form id="form-login" novalidate>
+          <div data-errores></div>
+          <div class="f">
+            <label for="email">Correo institucional</label
+            ><input id="email" name="email" type="email" autocomplete="username" />
+          </div>
+          <div class="f">
+            <label for="clave">Contraseña</label
+            ><input id="clave" name="clave" type="password" autocomplete="current-password" />
+          </div>
+          <button class="btn pri w">Entrar</button>
+        </form>
+        <p class="mut">¿No tienes cuenta? <a href="registro.html">Crea una</a></p>
+      </section>
+      <section class="demo">
+        <h2 class="m0">Cuentas de prueba</h2>
+        <p class="mut m0">Toca una para rellenar el formulario. Contraseña: 1234</p>
+        <div class="demo" id="cuentas-demo"></div>
+        <button type="button" class="btn gh w" id="btn-reiniciar">Reiniciar datos de prueba</button>
+      </section>
+    </main>
+    <div id="toast" class="toast" role="status" hidden></div>
+    <script src="js/iconos.js"></script>
+    <script src="js/api.js"></script>
+<script src="js/ui.js"></script>
+    <script src="js/pages/auth.js"></script>
+  </body>
+</html>
