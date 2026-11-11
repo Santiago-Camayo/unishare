@@ -37,8 +37,6 @@ const Api = (() => {
     registro: (datos) => peticion("POST", "/auth/registro", datos),
     logout: () => peticion("POST", "/auth/salir"),
     yo: () => peticion("GET", "/auth/yo"),
-    cuentasPrueba: () => peticion("GET", "/auth/cuentas-prueba"),
-    reiniciarDatos: () => peticion("POST", "/reiniciar"),
 
     categorias: () => peticion("GET", "/categorias"),
     objetos: (filtros) => peticion("GET", `/objetos?${new URLSearchParams(filtros)}`),
