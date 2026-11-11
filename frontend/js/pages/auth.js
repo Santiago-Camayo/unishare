@@ -1,6 +1,6 @@
 "use strict";
 
-/* Login y registro. Cada página usa solo su formulario. */
+/* Login y registro. La sesión la maneja el servidor con una cookie. */
 (async () => {
   if (!(await UI.iniciarPaginaPublica())) return;
 
@@ -22,15 +22,16 @@
         boton.textContent = `${cuenta.nombre} · ${cuenta.rol}`;
         boton.addEventListener("click", () => {
           form.email.value = cuenta.email;
-          form.clave.value = "1234"; // contraseña de prueba
+          form.clave.value = "1234"; // contraseña de prueba (solo desarrollo)
         });
         contenedorDemo.append(boton);
       });
     } catch (error) {
-      UI.mostrarErrores(form, error.errores);
+      // En producción esta ruta no existe: no es un error para el usuario
+      if (error.status !== 404) UI.mostrarErrores(form, error.errores);
     }
 
-    UI.$("#btn-reiniciar").addEventListener("click", async () => {
+    UI.$("#btn-reiniciar")?.addEventListener("click", async () => {
       try {
         await Api.reiniciarDatos();
         UI.toast("Datos de prueba reiniciados.");
@@ -42,8 +43,7 @@
     form.addEventListener("submit", async (evento) => {
       evento.preventDefault();
       try {
-        const { token } = await Api.login(form.email.value, form.clave.value);
-        Api.guardarSesion(token);
+        await Api.login(form.email.value, form.clave.value);
         location.href = "index.html";
       } catch (error) {
         UI.mostrarErrores(form, error.errores);
@@ -55,13 +55,12 @@
     form.addEventListener("submit", async (evento) => {
       evento.preventDefault();
       try {
-        const { token } = await Api.registro({
+        await Api.registro({
           nombre: form.nombre.value,
           email: form.email.value,
           clave: form.clave.value,
           rol: form.rol.value,
         });
-        Api.guardarSesion(token);
         UI.avisoDiferido("¡Cuenta creada!");
         location.href = "index.html";
       } catch (error) {

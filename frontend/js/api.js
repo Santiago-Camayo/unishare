@@ -1,9 +1,7 @@
 "use strict";
 
-/* Api: único punto de contacto del navegador con el backend (/api). */
+/* Api: único punto de contacto del navegador con el backend (/api). La sesión viaja en una cookie httpOnly. */
 const Api = (() => {
-  const CLAVE_TOKEN = "unishare.token";
-
   class ErrorApi extends Error {
     constructor(errores, status) {
       super(errores[0]);
@@ -13,15 +11,12 @@ const Api = (() => {
   }
 
   async function peticion(metodo, ruta, cuerpo) {
-    const cabeceras = { "Content-Type": "application/json" };
-    const token = localStorage.getItem(CLAVE_TOKEN);
-    if (token) cabeceras.Authorization = `Bearer ${token}`;
-
     let respuesta;
     try {
       respuesta = await fetch(`/api${ruta}`, {
         method: metodo,
-        headers: cabeceras,
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin", // envía la cookie de sesión automáticamente
         body: cuerpo ? JSON.stringify(cuerpo) : undefined,
       });
     } catch {
@@ -37,12 +32,10 @@ const Api = (() => {
 
   return {
     ErrorApi,
-    guardarSesion: (token) => localStorage.setItem(CLAVE_TOKEN, token),
-    cerrarSesion: () => localStorage.removeItem(CLAVE_TOKEN),
-    haySesion: () => Boolean(localStorage.getItem(CLAVE_TOKEN)),
 
     login: (email, clave) => peticion("POST", "/auth/login", { email, clave }),
     registro: (datos) => peticion("POST", "/auth/registro", datos),
+    logout: () => peticion("POST", "/auth/salir"),
     yo: () => peticion("GET", "/auth/yo"),
     cuentasPrueba: () => peticion("GET", "/auth/cuentas-prueba"),
     reiniciarDatos: () => peticion("POST", "/reiniciar"),

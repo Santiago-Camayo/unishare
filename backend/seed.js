@@ -17,9 +17,9 @@ async function sembrarDatos(forzar = false) {
   const clave = await bcrypt.hash("1234", 10);
 
   await Usuario.insertMany([
-    { _id: "u1", nombre: "Santiago", email: "santiago@unishare.edu.co", clave, rol: "estudiante" },
-    { _id: "u2", nombre: "Laura", email: "laura@unishare.edu.co", clave, rol: "estudiante" },
-    { _id: "u3", nombre: "Mateo", email: "mateo@unishare.edu.co", clave, rol: "profesor" },
+    { _id: "u1", nombre: "Santiago", email: "santiago@uniautonoma.edu.co", clave, rol: "estudiante" },
+    { _id: "u2", nombre: "Laura", email: "laura@uniautonoma.edu.co", clave, rol: "estudiante" },
+    { _id: "u3", nombre: "Mateo", email: "mateo@uniautonoma.edu.co", clave, rol: "profesor" },
   ]);
 
   await Objeto.insertMany([

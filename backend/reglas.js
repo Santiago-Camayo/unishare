@@ -7,7 +7,7 @@
 const bcrypt = require("bcryptjs");
 const { Usuario, Objeto, Prestamo, Calificacion } = require("./models");
 
-const DOMINIO = "@unishare.edu.co";
+const DOMINIO = "@uniautonoma.edu.co";
 const CATEGORIAS = ["Electrónica", "Herramientas", "Académico", "Libros", "Otro"];
 const MAX_FOTOS = 4;
 

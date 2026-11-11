@@ -187,10 +187,8 @@ const UI = (() => {
   async function iniciarPagina(seccion) {
     let usuario;
     try {
-      if (!Api.haySesion()) throw new Error("sin sesión");
       usuario = await Api.yo();
     } catch {
-      Api.cerrarSesion();
       location.replace("login.html");
       return null;
     }
@@ -198,8 +196,8 @@ const UI = (() => {
     $("#avatar").textContent = usuario.nombre[0];
     $("#nombre-usuario").textContent = usuario.nombre;
     $(`[data-nav="${seccion}"]`).setAttribute("aria-current", "page");
-    $("#btn-salir").addEventListener("click", () => {
-      Api.cerrarSesion();
+    $("#btn-salir").addEventListener("click", async () => {
+      await Api.logout().catch(() => {});
       location.href = "login.html";
     });
     montarNavInferior();
@@ -210,14 +208,12 @@ const UI = (() => {
 
   /** Login y registro: si ya hay una sesión válida, va directo al catálogo. */
   async function iniciarPaginaPublica() {
-    if (Api.haySesion()) {
-      try {
-        await Api.yo();
-        location.replace("index.html");
-        return false;
-      } catch {
-        Api.cerrarSesion();
-      }
+    try {
+      await Api.yo();
+      location.replace("index.html");
+      return false;
+    } catch {
+      // sin sesión: se queda en la página pública
     }
     pintarIconos();
     mostrarAvisoPendiente();

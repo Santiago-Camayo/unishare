@@ -7,6 +7,8 @@ const { Schema, model } = require("mongoose");
 // IDs de texto (UUID) para que coincidan con los datos de prueba (u1, o1, p1...).
 const idTexto = { type: String, default: () => randomUUID() };
 
+const DOMINIO_INSTITUCIONAL = "@uniautonoma.edu.co";
+
 const opciones = {
   timestamps: true,
   versionKey: false,
@@ -25,7 +27,17 @@ const Usuario = model(
     {
       _id: idTexto,
       nombre: { type: String, required: true },
-      email: { type: String, required: true, unique: true, lowercase: true, trim: true },
+      email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+        trim: true,
+        validate: {
+          validator: (valor) => valor.endsWith(DOMINIO_INSTITUCIONAL),
+          message: `Solo se permiten correos ${DOMINIO_INSTITUCIONAL}`,
+        },
+      },
       clave: { type: String, required: true },
       rol: { type: String, enum: ["estudiante", "profesor"], default: "estudiante" },
     },
