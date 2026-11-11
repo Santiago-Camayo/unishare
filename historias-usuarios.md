@@ -7,7 +7,7 @@ Roles: **usuario** (estudiante o profesor) y **administrador**.
 
 | N.º | Historia de usuario | Funcionalidad | Endpoint y método | Resultado esperado |
 |---|---|---|---|---|
-| 1 | HU-01: Como usuario, quiero registrarme con mi correo institucional, para demostrar que soy parte de la universidad. | Registro con validación de dominio | `POST /api/auth/registro` | 201 con token; 400 si el correo no es `@unishare.edu.co` |
+| 1 | HU-01: Como usuario, quiero registrarme con mi correo institucional, para demostrar que soy parte de la universidad. | Registro con validación de dominio | `POST /api/auth/registro` | 201 con el usuario y la cookie de sesión `token` (httpOnly, 8 h); 400 si el correo no es `@uniautonoma.edu.co` |
 | 2 | HU-04: Como usuario, quiero publicar un objeto con tarifa, garantía y máximo de días, para ofrecerlo en préstamo. | Publicar objeto | `POST /api/objetos` | 201 con el objeto en estado `disponible` |
 | 3 | HU-07: Como usuario, quiero buscar objetos por nombre y categoría, para encontrar rápido lo que necesito. | Búsqueda y filtrado | `GET /api/objetos?texto=&categoria=` | 200 con la lista filtrada y la reputación del dueño |
 | 4 | HU-05: Como dueño, quiero editar mi publicación, para mantener la información actualizada. | Editar objeto (RN-07) | `PUT /api/objetos/:id` | 200 con el objeto actualizado; 409 si tiene préstamos en curso |
@@ -22,11 +22,16 @@ Roles: **usuario** (estudiante o profesor) y **administrador**.
 
 | Historia | Endpoint y método |
 |---|---|
-| HU-02: iniciar sesión | `POST /api/auth/login` |
+| HU-02: iniciar sesión (guarda el JWT en la cookie httpOnly `token`) | `POST /api/auth/login` |
+| HU-02: cerrar sesión (borra la cookie) | `POST /api/auth/salir` |
+| HU-02: consultar la sesión actual | `GET /api/auth/yo` |
 | HU-08: ver el detalle de un objeto | `GET /api/objetos/:id` |
 | HU-06: ver mis objetos con su estado | `GET /api/objetos/mios` |
 | HU-10: rechazar una solicitud | `PATCH /api/prestamos/:id/responder` con `{ "aceptar": false }` |
 | HU-15: ver mis préstamos | `GET /api/prestamos?rol=dueno` o `?rol=solicitante` |
+
+> **Sesión:** la API ya no usa `Authorization: Bearer`. El token JWT viaja en la cookie httpOnly `token`, que el servidor crea al hacer login o registro.
+> **Producción** (`NODE_ENV=production`): no se cargan las cuentas de prueba y las rutas `GET /api/auth/cuentas-prueba` y `POST /api/reiniciar` responden 404.
 
 ## Todas las historias del proyecto
 
